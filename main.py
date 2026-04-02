@@ -14,19 +14,23 @@ HF_MODEL_REPO = os.environ.get("HF_MODEL_REPO", "")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MAX_LEN = 128
 
-# ── Download model from HuggingFace if needed ──
+# ── Download model from GitHub Release if not present ──
+MODEL_URL = os.environ.get("MODEL_URL", "https://github.com/nymkash-gerel/temuulel-bert-api/releases/download/v4.0/bert-v4-model.zip")
+
 def ensure_model():
     model_file = Path(MODEL_PATH) / "model.safetensors"
     if model_file.exists() and model_file.stat().st_size > 1_000_000:
-        print(f"Model found at {MODEL_PATH}")
+        print(f"Model found at {MODEL_PATH} ({model_file.stat().st_size / 1024 / 1024:.0f}MB)")
         return
-    if HF_MODEL_REPO:
-        print(f"Downloading model from HuggingFace: {HF_MODEL_REPO}")
-        from huggingface_hub import snapshot_download
-        snapshot_download(repo_id=HF_MODEL_REPO, local_dir=MODEL_PATH)
-        print("Download complete!")
-    else:
-        print(f"Warning: Model not found at {MODEL_PATH} and no HF_MODEL_REPO set")
+    print(f"Downloading model from {MODEL_URL}...")
+    import urllib.request, zipfile
+    os.makedirs(MODEL_PATH, exist_ok=True)
+    zip_path = "/tmp/model.zip"
+    urllib.request.urlretrieve(MODEL_URL, zip_path)
+    with zipfile.ZipFile(zip_path, 'r') as z:
+        z.extractall(MODEL_PATH)
+    os.remove(zip_path)
+    print(f"Model downloaded to {MODEL_PATH}")
 
 ensure_model()
 
