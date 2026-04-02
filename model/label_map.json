@@ -1,0 +1,28 @@
+{
+  "label2id": {
+    "complaint": 0,
+    "greeting": 1,
+    "menu_availability": 2,
+    "order_collection": 3,
+    "order_status": 4,
+    "payment": 5,
+    "product_search": 6,
+    "return_exchange": 7,
+    "shipping": 8,
+    "size_info": 9,
+    "thanks": 10
+  },
+  "id2label": {
+    "0": "complaint",
+    "1": "greeting",
+    "2": "menu_availability",
+    "3": "order_collection",
+    "4": "order_status",
+    "5": "payment",
+    "6": "product_search",
+    "7": "return_exchange",
+    "8": "shipping",
+    "9": "size_info",
+    "10": "thanks"
+  }
+}
