@@ -23,14 +23,16 @@ def ensure_model():
         print(f"Model found at {MODEL_PATH} ({model_file.stat().st_size / 1024 / 1024:.0f}MB)")
         return
     print(f"Downloading model from {MODEL_URL}...")
-    import urllib.request, zipfile
+    import subprocess, zipfile
     os.makedirs(MODEL_PATH, exist_ok=True)
     zip_path = "/tmp/model.zip"
-    urllib.request.urlretrieve(MODEL_URL, zip_path)
+    # Use curl with -L to follow GitHub redirects
+    subprocess.run(["curl", "-L", "-o", zip_path, MODEL_URL], check=True)
     with zipfile.ZipFile(zip_path, 'r') as z:
         z.extractall(MODEL_PATH)
     os.remove(zip_path)
-    print(f"Model downloaded to {MODEL_PATH}")
+    size = Path(MODEL_PATH).joinpath("model.safetensors").stat().st_size / 1024 / 1024
+    print(f"Model downloaded to {MODEL_PATH} ({size:.0f}MB)")
 
 ensure_model()
 
