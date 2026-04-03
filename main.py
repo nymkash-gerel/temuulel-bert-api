@@ -15,7 +15,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MAX_LEN = 128
 
 # ── Download model from GitHub Release if not present ──
-MODEL_URL = os.environ.get("MODEL_URL", "https://github.com/nymkash-gerel/temuulel-bert-api/releases/download/v4.0/bert-v4-model.zip")
+MODEL_URL = os.environ.get("MODEL_URL", "https://github.com/nymkash-gerel/temuulel-bert-api/releases/download/v5.0/bert-v5-model.zip")
 
 def ensure_model():
     model_file = Path(MODEL_PATH) / "model.safetensors"
